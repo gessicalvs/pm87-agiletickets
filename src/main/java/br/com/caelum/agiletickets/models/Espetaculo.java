@@ -100,12 +100,12 @@ public class Espetaculo {
      * Repare que a data da primeira sessao é sempre a data inicial.
      */
 	public List<Sessao> criaSessoes(LocalDate inicio, LocalDate fim, LocalTime horario, Periodicidade periodicidade) {
-		// ALUNO: Não apague esse metodo. Esse sim será usado no futuro! ;)
-
-		Sessao sessao;
 
 		int days = Days.daysBetween(inicio, fim).getDays();
+		if (days < 0) throw new IllegalArgumentException("Data inicio maior que data fim!!! ");
 
+		Sessao sessao;
+		
 		List<Sessao> Lista = new ArrayList<Sessao>();
 		for (int i = 0 ; i <= days; i++){
 			sessao = new Sessao();
