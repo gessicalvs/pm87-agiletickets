@@ -3,6 +3,9 @@ package br.com.caelum.agiletickets.models;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class EspetaculoTest {
@@ -79,6 +82,43 @@ public class EspetaculoTest {
 		sessao.setIngressosReservados(quantidade);
 
 		return sessao;
+	}
+	
+	@Test
+	public void DeveCriaraApenasUmaSessaoQuandoDataInicioIGualDataFim(){
+		LocalDate inicio = new LocalDate();
+		LocalDate fim = new LocalDate();
+		LocalTime horario = new LocalTime();
+		
+		Espetaculo espetaculo = new Espetaculo();
+		Assert.assertTrue(espetaculo.criaSessoes(inicio, fim, horario,Periodicidade.DIARIA).size() == 1);
+		
+	}
+	
+	@Test
+	public void DeveCriarUmaSessaoPorDiaComAPeriodicidadeDiaria(){
+		LocalDate inicio = new LocalDate();
+		LocalDate fim = inicio.plusDays(3);
+		LocalTime horario = new LocalTime();
+				
+		Espetaculo espetaculo = new Espetaculo();
+		Assert.assertTrue(espetaculo.criaSessoes(inicio, fim, horario,Periodicidade.DIARIA).size() == 4);
+
+		fim = inicio.plusDays(5);
+		Assert.assertTrue(espetaculo.criaSessoes(inicio, fim, horario,Periodicidade.DIARIA).size() == 6);
+		
+		
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void DeveLancarUmaExcecaoQuandoDataInicioForMaiorDataFim(){
+		LocalDate fim = new LocalDate();
+		LocalDate inicio = fim.plusDays(3);
+		LocalTime horario = new LocalTime();
+		
+		Espetaculo espetaculo = new Espetaculo();
+		Assert.assertTrue(espetaculo.criaSessoes(inicio, fim, horario,Periodicidade.DIARIA).size() == 0);
+		
 	}
 	
 }
